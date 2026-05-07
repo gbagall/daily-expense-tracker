@@ -132,5 +132,80 @@ table th {
   .title {
     font-size: 28px;
   }
+}
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
 
+.tab-btn {
+  flex: 1;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.tab-btn.active {
+  background: linear-gradient(
+    135deg,
+    #00e676,
+    #00c853
+  );
+
+  color: black;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+body {
+  background: linear-gradient(
+    135deg,
+    #141e30,
+    #243b55
+  );
+}
+
+.card {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(14px);
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,0.3);
+}
+
+button {
+  background: linear-gradient(
+    135deg,
+    #00e676,
+    #00c853
+  );
+
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.02);
+}
+
+table {
+  background: rgba(255,255,255,0.08);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+table th {
+  background: rgba(255,255,255,0.15);
+}
+
+.table-container {
+  overflow-x: auto;
 }
