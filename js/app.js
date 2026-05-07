@@ -215,3 +215,80 @@ function loadSummary() {
 loadSummary();
 
 filterEntries();
+function showTab(tabId, button){
+
+  document
+    .querySelectorAll('.tab-content')
+    .forEach(tab => {
+      tab.classList.add('hidden');
+    });
+
+  document
+    .getElementById(tabId)
+    .classList.remove('hidden');
+
+  document
+    .querySelectorAll('.tab-btn')
+    .forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+  button.classList.add('active');
+}
+
+function loadLatestEntries(){
+
+  const table =
+    document.getElementById(
+      'latestEntriesTable'
+    );
+
+  table.innerHTML = '';
+
+  const latest =
+    [...entries]
+    .sort(
+      (a,b) =>
+        new Date(b.date) -
+        new Date(a.date)
+    )
+    .slice(0,10);
+
+  latest.forEach(entry => {
+
+    table.innerHTML += `
+
+      <tr>
+
+        <td>${entry.date}</td>
+
+        <td class="${
+          entry.type === 'Credit'
+          ? 'credit-text'
+          : 'debit-text'
+        }">
+
+          ${entry.type}
+
+        </td>
+
+        <td>₹${entry.amount}</td>
+
+        <td>${entry.comment}</td>
+
+        <td>
+
+          <button
+            class="delete-btn"
+            onclick="deleteEntry(${entry.id})"
+          >
+            Delete
+          </button>
+
+        </td>
+
+      </tr>
+
+    `;
+  });
+}
