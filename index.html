@@ -16,108 +16,174 @@
 
     <h1 class="title">Expense Tracker</h1>
 
-    <!-- TOP SUMMARY -->
-    <div class="summary-grid">
+    <!-- TABS -->
+    <div class="tabs">
 
-      <div class="summary-box credit-box">
-        <h3>Today's Credit</h3>
-        <p id="todayCredit">₹0</p>
-      </div>
+      <button
+        class="tab-btn active"
+        onclick="showTab('addTab', this)"
+      >
+        Add Entry
+      </button>
 
-      <div class="summary-box debit-box">
-        <h3>Today's Debit</h3>
-        <p id="todayDebit">₹0</p>
-      </div>
-
-      <div class="summary-box credit-box">
-        <h3>Monthly Credit</h3>
-        <p id="monthCredit">₹0</p>
-      </div>
-
-      <div class="summary-box debit-box">
-        <h3>Monthly Debit</h3>
-        <p id="monthDebit">₹0</p>
-      </div>
-
-    </div>
-
-    <!-- ADD ENTRY -->
-    <div class="card">
-
-      <h2>Add Entry</h2>
-
-      <input type="date" id="date">
-
-      <select id="type">
-        <option value="Credit">Credit</option>
-        <option value="Debit">Debit</option>
-      </select>
-
-      <input type="number" id="amount" placeholder="Enter Amount">
-
-      <textarea id="comment" placeholder="Comment"></textarea>
-
-      <button onclick="addEntry()">
-        Save Entry
+      <button
+        class="tab-btn"
+        onclick="showTab('historyTab', this)"
+      >
+        History
       </button>
 
     </div>
 
-    <!-- FILTER -->
-    <div class="card">
+    <!-- ADD TAB -->
+    <div id="addTab" class="tab-content">
 
-      <h2>Filter Entries</h2>
+      <!-- SUMMARY -->
+      <div class="summary-grid">
 
-      <label>From Date</label>
-      <input type="date" id="fromDate">
+        <div class="summary-box credit-box">
+          <h3>Today's Credit</h3>
+          <p id="todayCredit">₹0</p>
+        </div>
 
-      <label>To Date</label>
-      <input type="date" id="toDate">
+        <div class="summary-box debit-box">
+          <h3>Today's Debit</h3>
+          <p id="todayDebit">₹0</p>
+        </div>
 
-      <button onclick="filterEntries()">
-        Search
-      </button>
+        <div class="summary-box credit-box">
+          <h3>Monthly Credit</h3>
+          <p id="monthCredit">₹0</p>
+        </div>
+
+        <div class="summary-box debit-box">
+          <h3>Monthly Debit</h3>
+          <p id="monthDebit">₹0</p>
+        </div>
+
+      </div>
+
+      <!-- ADD FORM -->
+      <div class="card">
+
+        <h2>Add Entry</h2>
+
+        <input type="date" id="date">
+
+        <select id="type">
+          <option value="Credit">Credit</option>
+          <option value="Debit">Debit</option>
+        </select>
+
+        <input
+          type="number"
+          id="amount"
+          placeholder="Enter Amount"
+        >
+
+        <textarea
+          id="comment"
+          placeholder="Comment"
+        ></textarea>
+
+        <button onclick="addEntry()">
+          Save Entry
+        </button>
+
+      </div>
+
+      <!-- LATEST ENTRIES -->
+      <div class="card">
+
+        <h2>Latest Entries</h2>
+
+        <div class="table-container">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Comment</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
+
+            <tbody id="latestEntriesTable">
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
 
     </div>
 
-    <!-- FILTER SUMMARY -->
-    <div class="summary-grid">
+    <!-- HISTORY TAB -->
+    <div
+      id="historyTab"
+      class="tab-content hidden"
+    >
 
-      <div class="summary-box credit-box">
-        <h3>Total Credit</h3>
-        <p id="filterCredit">₹0</p>
+      <div class="card">
+
+        <h2>Search Entries</h2>
+
+        <label>From Date</label>
+        <input type="date" id="fromDate">
+
+        <label>To Date</label>
+        <input type="date" id="toDate">
+
+        <button onclick="filterEntries()">
+          Search
+        </button>
+
       </div>
 
-      <div class="summary-box debit-box">
-        <h3>Total Debit</h3>
-        <p id="filterDebit">₹0</p>
+      <!-- FILTER SUMMARY -->
+      <div class="summary-grid">
+
+        <div class="summary-box credit-box">
+          <h3>Total Credit</h3>
+          <p id="filterCredit">₹0</p>
+        </div>
+
+        <div class="summary-box debit-box">
+          <h3>Total Debit</h3>
+          <p id="filterDebit">₹0</p>
+        </div>
+
       </div>
 
-    </div>
+      <!-- FILTER TABLE -->
+      <div class="card">
 
-    <!-- TABLE -->
-    <div class="card">
+        <h2>Filtered Entries</h2>
 
-      <h2>All Entries</h2>
+        <div class="table-container">
 
-      <div class="table-container">
+          <table>
 
-        <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Comment</th>
+                <th>Delete</th>
+              </tr>
+            </thead>
 
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Type</th>
-              <th>Amount</th>
-              <th>Comment</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
+            <tbody id="entriesTable">
+            </tbody>
 
-          <tbody id="entriesTable">
-          </tbody>
+          </table>
 
-        </table>
+        </div>
 
       </div>
 
