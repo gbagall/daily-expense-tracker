@@ -6,14 +6,14 @@
 }
 
 body {
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background: linear-gradient(135deg, #141e30, #243b55);
   min-height: 100vh;
   padding: 15px;
   color: white;
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
 }
 
@@ -23,116 +23,6 @@ body {
   font-size: 34px;
 }
 
-.card {
-  background: rgba(255,255,255,0.12);
-  backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-input,
-select,
-textarea,
-button {
-  width: 100%;
-  margin-top: 12px;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  font-size: 16px;
-}
-
-textarea {
-  resize: none;
-  height: 80px;
-}
-
-button {
-  background: #00e676;
-  color: black;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.summary-box {
-  padding: 20px;
-  border-radius: 18px;
-  text-align: center;
-}
-
-.credit-box {
-  background: #00c853;
-}
-
-.debit-box {
-  background: #ff1744;
-}
-
-.summary-box p {
-  margin-top: 10px;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.table-container {
-  overflow-x: auto;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-  min-width: 700px;
-}
-
-table th,
-table td {
-  padding: 12px;
-  border: 1px solid rgba(255,255,255,0.2);
-  text-align: center;
-}
-
-table th {
-  background: rgba(255,255,255,0.2);
-}
-
-.credit-text {
-  color: #76ff03;
-  font-weight: bold;
-}
-
-.debit-text {
-  color: #ff5252;
-  font-weight: bold;
-}
-
-.delete-btn {
-  background: #ff1744;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-@media(max-width:600px) {
-
-  .title {
-    font-size: 28px;
-  }
-}
 .tabs {
   display: flex;
   gap: 10px;
@@ -148,16 +38,10 @@ table th {
   border-radius: 14px;
   font-size: 16px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 .tab-btn.active {
-  background: linear-gradient(
-    135deg,
-    #00e676,
-    #00c853
-  );
-
+  background: linear-gradient(135deg,#00e676,#00c853);
   color: black;
   font-weight: bold;
 }
@@ -166,46 +50,117 @@ table th {
   display: none;
 }
 
-body {
-  background: linear-gradient(
-    135deg,
-    #141e30,
-    #243b55
-  );
-}
-
 .card {
   background: rgba(255,255,255,0.12);
   backdrop-filter: blur(14px);
+  border-radius: 22px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
 
-  box-shadow:
-    0 8px 25px rgba(0,0,0,0.3);
+input,
+select,
+textarea,
+button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-size: 16px;
+}
+
+textarea {
+  resize: none;
+  height: 90px;
 }
 
 button {
-  background: linear-gradient(
-    135deg,
-    #00e676,
-    #00c853
-  );
-
-  transition: 0.3s;
+  background: linear-gradient(135deg,#00e676,#00c853);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 button:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.summary-box {
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+.credit-box {
+  background: linear-gradient(135deg,#00c853,#00e676);
+}
+
+.debit-box {
+  background: linear-gradient(135deg,#ff1744,#ff5252);
+}
+
+.summary-box p {
+  margin-top: 10px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.table-container {
+  overflow-x: auto;
 }
 
 table {
-  background: rgba(255,255,255,0.08);
-  border-radius: 14px;
-  overflow: hidden;
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+table th,
+table td {
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
 }
 
 table th {
   background: rgba(255,255,255,0.15);
 }
 
-.table-container {
-  overflow-x: auto;
+.credit-text {
+  color: #76ff03;
+  font-weight: bold;
+}
+
+.debit-text {
+  color: #ff5252;
+  font-weight: bold;
+}
+
+.delete-btn {
+  background: #ff1744;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+@media(max-width:600px){
+
+  .title {
+    font-size: 28px;
+  }
+
+  table {
+    min-width: 600px;
+  }
 }
