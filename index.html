@@ -2,12 +2,15 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Expense Tracker</title>
 
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="css/style.css">
+
+  <meta name="theme-color" content="#141e30">
 </head>
 
 <body>
@@ -16,7 +19,6 @@
 
     <h1 class="title">Expense Tracker</h1>
 
-    <!-- TABS -->
     <div class="tabs">
 
       <button
@@ -38,7 +40,6 @@
     <!-- ADD TAB -->
     <div id="addTab" class="tab-content">
 
-      <!-- SUMMARY -->
       <div class="summary-grid">
 
         <div class="summary-box credit-box">
@@ -63,7 +64,6 @@
 
       </div>
 
-      <!-- ADD FORM -->
       <div class="card">
 
         <h2>Add Entry</h2>
@@ -92,10 +92,9 @@
 
       </div>
 
-      <!-- LATEST ENTRIES -->
       <div class="card">
 
-        <h2>Latest Entries</h2>
+        <h2>All Entries</h2>
 
         <div class="table-container">
 
@@ -111,8 +110,7 @@
               </tr>
             </thead>
 
-            <tbody id="latestEntriesTable">
-            </tbody>
+            <tbody id="latestEntriesTable"></tbody>
 
           </table>
 
@@ -123,10 +121,7 @@
     </div>
 
     <!-- HISTORY TAB -->
-    <div
-      id="historyTab"
-      class="tab-content hidden"
-    >
+    <div id="historyTab" class="tab-content hidden">
 
       <div class="card">
 
@@ -144,7 +139,6 @@
 
       </div>
 
-      <!-- FILTER SUMMARY -->
       <div class="summary-grid">
 
         <div class="summary-box credit-box">
@@ -159,7 +153,6 @@
 
       </div>
 
-      <!-- FILTER TABLE -->
       <div class="card">
 
         <h2>Filtered Entries</h2>
@@ -178,8 +171,7 @@
               </tr>
             </thead>
 
-            <tbody id="entriesTable">
-            </tbody>
+            <tbody id="entriesTable"></tbody>
 
           </table>
 
@@ -191,6 +183,7 @@
 
   </div>
 
+  <script src="js/db.js"></script>
   <script src="js/app.js"></script>
 
 </body>
