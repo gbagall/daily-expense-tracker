@@ -1,547 +1,132 @@
-# Mobile Daily Expense Tracker Website
-
-Save this as `index.html` and open it in your mobile browser.
-
-This app:
-
-* Adds daily expense/income entries
-* Stores data permanently in browser local storage
-* Works on mobile
-* Shows date-wise history
-* Filters entries between dates
-* Shows total credited/debited summaries
-* Shows today's and monthly summaries
-* Allows export/import backup file
-* Has modern colorful UI
-
----
-
-```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Expense Tracker</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      min-height: 100vh;
-      padding: 15px;
-      color: white;
-    }
-
-    .container {
-      max-width: 700px;
-      margin: auto;
-    }
-
-    .title {
-      text-align: center;
-      font-size: 32px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-
-    .card {
-      background: rgba(255,255,255,0.12);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-    }
-
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .tab-btn {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.2);
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .tab-btn.active {
-      background: #00c6ff;
-      color: black;
-      font-weight: bold;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 12px;
-      border: none;
-      font-size: 16px;
-    }
-
-    textarea {
-      resize: none;
-      height: 80px;
-    }
-
-    button.action-btn {
-      width: 100%;
-      margin-top: 15px;
-      padding: 14px;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      cursor: pointer;
-      background: #00e676;
-      color: black;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-
-    button.action-btn:hover {
-      transform: scale(1.02);
-    }
-
-    .summary-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 15px;
-    }
-
-    .summary-box {
-      border-radius: 15px;
-      padding: 15px;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .credit-box {
-      background: #00c853;
-      color: white;
-    }
-
-    .debit-box {
-      background: #ff1744;
-      color: white;
-    }
-
-    .entry {
-      background: rgba(255,255,255,0.15);
-      padding: 12px;
-      border-radius: 14px;
-      margin-top: 12px;
-    }
-
-    .entry-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-
-    .credit {
-      color: #76ff03;
-    }
-
-    .debit {
-      color: #ff5252;
-    }
-
-    .small-text {
-      font-size: 13px;
-      opacity: 0.9;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .backup-buttons {
-      display: flex;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .backup-buttons button {
-      flex: 1;
-    }
-
-    @media(max-width:500px) {
-      .summary-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .title {
-        font-size: 26px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <div class="title">Daily Expense Tracker</div>
+    <h1 class="title">Expense Tracker</h1>
 
-  <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('addTab', this)">Add Entry</button>
-    <button class="tab-btn" onclick="showTab('historyTab', this)">History</button>
-  </div>
+    <!-- TOP SUMMARY -->
+    <div class="summary-grid">
 
-  <!-- ADD TAB -->
-  <div id="addTab" class="tab-content">
+      <div class="summary-box credit-box">
+        <h3>Today's Credit</h3>
+        <p id="todayCredit">₹0</p>
+      </div>
 
+      <div class="summary-box debit-box">
+        <h3>Today's Debit</h3>
+        <p id="todayDebit">₹0</p>
+      </div>
+
+      <div class="summary-box credit-box">
+        <h3>Monthly Credit</h3>
+        <p id="monthCredit">₹0</p>
+      </div>
+
+      <div class="summary-box debit-box">
+        <h3>Monthly Debit</h3>
+        <p id="monthDebit">₹0</p>
+      </div>
+
+    </div>
+
+    <!-- ADD ENTRY -->
     <div class="card">
-      <h2>Add New Entry</h2>
 
-      <input type="date" id="date" />
+      <h2>Add Entry</h2>
+
+      <input type="date" id="date">
 
       <select id="type">
         <option value="Credit">Credit</option>
         <option value="Debit">Debit</option>
       </select>
 
-      <input type="number" id="amount" placeholder="Enter Amount" />
+      <input type="number" id="amount" placeholder="Enter Amount">
 
-      <textarea id="comment" placeholder="Comment / Description"></textarea>
+      <textarea id="comment" placeholder="Comment"></textarea>
 
-      <button class="action-btn" onclick="addEntry()">Save Entry</button>
+      <button onclick="addEntry()">
+        Save Entry
+      </button>
 
-      <div class="backup-buttons">
-        <button class="action-btn" onclick="exportData()">Export Backup</button>
-        <button class="action-btn" onclick="document.getElementById('importFile').click()">
-          Import Backup
-        </button>
-      </div>
-
-      <input type="file" id="importFile" class="hidden" accept=".json" onchange="importData(event)" />
     </div>
 
+    <!-- FILTER -->
     <div class="card">
-      <h2>Today's Summary</h2>
 
-      <div class="summary-grid">
-        <div class="summary-box credit-box">
-          <div>Today's Credit</div>
-          <div id="todayCredit">₹0</div>
-        </div>
-
-        <div class="summary-box debit-box">
-          <div>Today's Debit</div>
-          <div id="todayDebit">₹0</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Monthly Summary</h2>
-
-      <div class="summary-grid">
-        <div class="summary-box credit-box">
-          <div>Monthly Credit</div>
-          <div id="monthCredit">₹0</div>
-        </div>
-
-        <div class="summary-box debit-box">
-          <div>Monthly Debit</div>
-          <div id="monthDebit">₹0</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- HISTORY TAB -->
-  <div id="historyTab" class="tab-content hidden">
-
-    <div class="card">
-      <h2>Search Entries</h2>
+      <h2>Filter Entries</h2>
 
       <label>From Date</label>
-      <input type="date" id="fromDate" />
+      <input type="date" id="fromDate">
 
       <label>To Date</label>
-      <input type="date" id="toDate" />
+      <input type="date" id="toDate">
 
-      <button class="action-btn" onclick="filterEntries()">Show Entries</button>
+      <button onclick="filterEntries()">
+        Search
+      </button>
 
-      <div class="summary-grid">
-        <div class="summary-box credit-box">
-          <div>Total Credit</div>
-          <div id="filterCredit">₹0</div>
-        </div>
+    </div>
 
-        <div class="summary-box debit-box">
-          <div>Total Debit</div>
-          <div id="filterDebit">₹0</div>
-        </div>
+    <!-- FILTER SUMMARY -->
+    <div class="summary-grid">
+
+      <div class="summary-box credit-box">
+        <h3>Total Credit</h3>
+        <p id="filterCredit">₹0</p>
+      </div>
+
+      <div class="summary-box debit-box">
+        <h3>Total Debit</h3>
+        <p id="filterDebit">₹0</p>
       </div>
 
     </div>
 
+    <!-- TABLE -->
     <div class="card">
-      <h2>Entries</h2>
-      <div id="entriesList"></div>
+
+      <h2>All Entries</h2>
+
+      <div class="table-container">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Comment</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+
+          <tbody id="entriesTable">
+          </tbody>
+
+        </table>
+
+      </div>
+
     </div>
 
   </div>
 
-</div>
-
-<script>
-
-  let entries = JSON.parse(localStorage.getItem('expenseEntries')) || [];
-
-  document.getElementById('date').valueAsDate = new Date();
-
-  function saveData() {
-    localStorage.setItem('expenseEntries', JSON.stringify(entries));
-    loadSummaries();
-  }
-
-  function addEntry() {
-    const date = document.getElementById('date').value;
-    const type = document.getElementById('type').value;
-    const amount = parseFloat(document.getElementById('amount').value);
-    const comment = document.getElementById('comment').value;
-
-    if (!date || !amount || amount <= 0) {
-      alert('Please enter valid details');
-      return;
-    }
-
-    entries.push({
-      id: Date.now(),
-      date,
-      type,
-      amount,
-      comment
-    });
-
-    saveData();
-
-    document.getElementById('amount').value = '';
-    document.getElementById('comment').value = '';
-
-    alert('Entry Saved Successfully');
-  }
-
-  function showTab(tabId, button) {
-    document.querySelectorAll('.tab-content').forEach(tab => {
-      tab.classList.add('hidden');
-    });
-
-    document.getElementById(tabId).classList.remove('hidden');
-
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.classList.remove('active');
-    });
-
-    button.classList.add('active');
-  }
-
-  function loadSummaries() {
-    const today = new Date().toISOString().split('T')[0];
-    const currentMonth = today.substring(0, 7);
-
-    let todayCredit = 0;
-    let todayDebit = 0;
-
-    let monthCredit = 0;
-    let monthDebit = 0;
-
-    entries.forEach(entry => {
-
-      if (entry.date === today) {
-        if (entry.type === 'Credit') {
-          todayCredit += entry.amount;
-        } else {
-          todayDebit += entry.amount;
-        }
-      }
-
-      if (entry.date.startsWith(currentMonth)) {
-        if (entry.type === 'Credit') {
-          monthCredit += entry.amount;
-        } else {
-          monthDebit += entry.amount;
-        }
-      }
-
-    });
-
-    document.getElementById('todayCredit').innerText = '₹' + todayCredit;
-    document.getElementById('todayDebit').innerText = '₹' + todayDebit;
-
-    document.getElementById('monthCredit').innerText = '₹' + monthCredit;
-    document.getElementById('monthDebit').innerText = '₹' + monthDebit;
-  }
-
-  function filterEntries() {
-
-    const fromDate = document.getElementById('fromDate').value;
-    const toDate = document.getElementById('toDate').value;
-
-    const entriesList = document.getElementById('entriesList');
-    entriesList.innerHTML = '';
-
-    let totalCredit = 0;
-    let totalDebit = 0;
-
-    const filtered = entries.filter(entry => {
-      return (!fromDate || entry.date >= fromDate) &&
-             (!toDate || entry.date <= toDate);
-    });
-
-    filtered.sort((a,b) => new Date(b.date) - new Date(a.date));
-
-    filtered.forEach(entry => {
-
-      if (entry.type === 'Credit') {
-        totalCredit += entry.amount;
-      } else {
-        totalDebit += entry.amount;
-      }
-
-      entriesList.innerHTML += `
-        <div class="entry">
-          <div class="entry-header">
-            <span>${entry.date}</span>
-            <span class="${entry.type.toLowerCase()}">
-              ${entry.type} ₹${entry.amount}
-            </span>
-          </div>
-
-          <div class="small-text">${entry.comment}</div>
-        </div>
-      `;
-    });
-
-    document.getElementById('filterCredit').innerText = '₹' + totalCredit;
-    document.getElementById('filterDebit').innerText = '₹' + totalDebit;
-
-    if (filtered.length === 0) {
-      entriesList.innerHTML = '<p>No Entries Found</p>';
-    }
-  }
-
-  function exportData() {
-
-    const blob = new Blob([
-      JSON.stringify(entries, null, 2)
-    ], {
-      type: 'application/json'
-    });
-
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'expense-backup.json';
-    a.click();
-
-    URL.revokeObjectURL(url);
-  }
-
-  function importData(event) {
-
-    const file = event.target.files[0];
-
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-
-      try {
-
-        entries = JSON.parse(e.target.result);
-
-        saveData();
-
-        alert('Backup Imported Successfully');
-
-      } catch {
-        alert('Invalid Backup File');
-      }
-
-    };
-
-    reader.readAsText(file);
-  }
-
-  loadSummaries();
-
-</script>
+  <script src="js/app.js"></script>
 
 </body>
+
 </html>
-```
-
----
-
-## How Data Storage Works
-
-Instead of TXT/XML, this app uses:
-
-* Browser Local Storage (best for mobile)
-* Backup Export File (`expense-backup.json`)
-
-Why this is better:
-
-* Works directly on mobile
-* No database required
-* Fast and simple
-* Data stays saved even after closing browser
-* You can export/import backup anytime
-
----
-
-## How To Use On Mobile
-
-### Option 1 (Recommended)
-
-1. Save this as `index.html`
-2. Open in Chrome mobile browser
-3. Add to Home Screen
-4. It behaves like an app
-
-### Option 2
-
-Host free using:
-
-* GitHub Pages
-* Netlify
-* Vercel
-
-Then open from your phone anytime.
-
----
-
-## Future Features You Can Add Later
-
-* Edit/Delete entries
-* Pie charts
-* Category wise expenses
-* Dark mode
-* Excel export
-* Google Drive backup
-* Login system
-* Offline app (PWA)
-* Search by comment
