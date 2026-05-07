@@ -1,5 +1,7 @@
 let entries =
-  JSON.parse(localStorage.getItem("expenseEntries")) || [];
+  JSON.parse(
+    localStorage.getItem("expenseEntries")
+  ) || [];
 
 document.getElementById("date").valueAsDate =
   new Date();
@@ -50,7 +52,76 @@ function addEntry() {
   document.getElementById("amount").value = "";
   document.getElementById("comment").value = "";
 
+  loadAllEntries();
+
   filterEntries();
+}
+
+function loadAllEntries() {
+
+  const table =
+    document.getElementById(
+      "latestEntriesTable"
+    );
+
+  table.innerHTML = "";
+
+  const sorted =
+    [...entries]
+    .sort(
+      (a,b) =>
+        new Date(b.date) -
+        new Date(a.date)
+    );
+
+  sorted.forEach(entry => {
+
+    table.innerHTML += `
+
+      <tr>
+
+        <td>${entry.date}</td>
+
+        <td class="${
+          entry.type === "Credit"
+          ? "credit-text"
+          : "debit-text"
+        }">
+
+          ${entry.type}
+
+        </td>
+
+        <td>₹${entry.amount}</td>
+
+        <td>${entry.comment}</td>
+
+        <td>
+
+          <button
+            class="delete-btn"
+            onclick="deleteEntry(${entry.id})"
+          >
+            Delete
+          </button>
+
+        </td>
+
+      </tr>
+
+    `;
+  });
+
+  if(sorted.length === 0){
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="5">
+          No Entries
+        </td>
+      </tr>
+    `;
+  }
 }
 
 function filterEntries() {
@@ -80,15 +151,16 @@ function filterEntries() {
 
   filtered.sort(
     (a,b) =>
-      new Date(b.date) - new Date(a.date)
+      new Date(b.date) -
+      new Date(a.date)
   );
 
   filtered.forEach(entry => {
 
-    if (entry.type === "Credit") {
+    if(entry.type === "Credit"){
       totalCredit += entry.amount;
     }
-    else {
+    else{
       totalDebit += entry.amount;
     }
 
@@ -128,6 +200,14 @@ function filterEntries() {
     `;
   });
 
+  document.getElementById(
+    "filterCredit"
+  ).innerText = "₹" + totalCredit;
+
+  document.getElementById(
+    "filterDebit"
+  ).innerText = "₹" + totalDebit;
+
   if(filtered.length === 0){
 
     table.innerHTML = `
@@ -138,12 +218,6 @@ function filterEntries() {
       </tr>
     `;
   }
-
-  document.getElementById("filterCredit").innerText =
-    "₹" + totalCredit;
-
-  document.getElementById("filterDebit").innerText =
-    "₹" + totalDebit;
 }
 
 function deleteEntry(id) {
@@ -154,9 +228,13 @@ function deleteEntry(id) {
   if (!confirmDelete) return;
 
   entries =
-    entries.filter(entry => entry.id !== id);
+    entries.filter(
+      entry => entry.id !== id
+    );
 
   saveData();
+
+  loadAllEntries();
 
   filterEntries();
 }
@@ -199,96 +277,46 @@ function loadSummary() {
 
   });
 
-  document.getElementById("todayCredit").innerText =
-    "₹" + todayCredit;
+  document.getElementById(
+    "todayCredit"
+  ).innerText = "₹" + todayCredit;
 
-  document.getElementById("todayDebit").innerText =
-    "₹" + todayDebit;
+  document.getElementById(
+    "todayDebit"
+  ).innerText = "₹" + todayDebit;
 
-  document.getElementById("monthCredit").innerText =
-    "₹" + monthCredit;
+  document.getElementById(
+    "monthCredit"
+  ).innerText = "₹" + monthCredit;
 
-  document.getElementById("monthDebit").innerText =
-    "₹" + monthDebit;
+  document.getElementById(
+    "monthDebit"
+  ).innerText = "₹" + monthDebit;
 }
 
-loadSummary();
-
-filterEntries();
 function showTab(tabId, button){
 
   document
-    .querySelectorAll('.tab-content')
+    .querySelectorAll(".tab-content")
     .forEach(tab => {
-      tab.classList.add('hidden');
+      tab.classList.add("hidden");
     });
 
   document
     .getElementById(tabId)
-    .classList.remove('hidden');
+    .classList.remove("hidden");
 
   document
-    .querySelectorAll('.tab-btn')
+    .querySelectorAll(".tab-btn")
     .forEach(btn => {
-      btn.classList.remove('active');
+      btn.classList.remove("active");
     });
 
-  button.classList.add('active');
+  button.classList.add("active");
 }
 
-function loadLatestEntries(){
+loadSummary();
 
-  const table =
-    document.getElementById(
-      'latestEntriesTable'
-    );
+loadAllEntries();
 
-  table.innerHTML = '';
-
-  const latest =
-    [...entries]
-    .sort(
-      (a,b) =>
-        new Date(b.date) -
-        new Date(a.date)
-    )
-    .slice(0,10);
-
-  latest.forEach(entry => {
-
-    table.innerHTML += `
-
-      <tr>
-
-        <td>${entry.date}</td>
-
-        <td class="${
-          entry.type === 'Credit'
-          ? 'credit-text'
-          : 'debit-text'
-        }">
-
-          ${entry.type}
-
-        </td>
-
-        <td>₹${entry.amount}</td>
-
-        <td>${entry.comment}</td>
-
-        <td>
-
-          <button
-            class="delete-btn"
-            onclick="deleteEntry(${entry.id})"
-          >
-            Delete
-          </button>
-
-        </td>
-
-      </tr>
-
-    `;
-  });
-}
+filterEntries();
